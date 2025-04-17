@@ -1,1 +1,78 @@
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from sklearn.utils import resample
+from imblearn.over_sampling import SMOTE
+from scipy.stats import zscore
+import pandas as pd
+import numpy as np
 
+# --- 1) Load & initial clean ---
+# (Assume df is already loaded via pd.read_csv)
+data = df.copy()
+data.drop(['nameOrig', 'nameDest'], axis=1, inplace=True)
+
+print(data.info())
+print("Missing:\n", data.isnull().sum())
+print("Duplicates:", data.duplicated().sum())
+
+# remove any rows missing the target
+data = data[data['isFraud'].notna()]
+
+# --- 2) Encode transaction type ---
+le = LabelEncoder()
+data['type'] = le.fit_transform(data['type'])
+
+# --- 3) Feature engineering ---
+# drop near-constant flag column if it exists
+data.drop(['isFlaggedFraud'], axis=1, inplace=True, errors='ignore')
+
+# high‑amount flag
+data['isHighAmount'] = (data['amount'] > 200_000).astype(int)
+
+# log(1+amount)
+data['log_amount'] = np.log1p(data['amount'])
+
+# z‑score of amount within each type
+data['amount_zscore'] = data.groupby('type')['amount']\
+                            .transform(lambda x: zscore(x, ddof=0))
+
+# if you only want numeric 'type' now, you could rename it
+data.rename(columns={'type':'type_encoded'}, inplace=True)
+
+print("\nFeature sample:\n", data.head())
+
+# --- 4) Split into features & target ---
+X = data.drop(columns=['isFraud'])
+y = data['isFraud']
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y,
+    test_size=0.30,
+    stratify=y,
+    random_state=42
+)
+print("\nTrain:", X_train.shape, " Test:", X_test.shape)
+print("Class dist (train):\n", y_train.value_counts())
+
+# --- 5) Balance the training set ---
+train_df = pd.concat([X_train, y_train.rename('isFraud')], axis=1)
+fraud     = train_df[train_df['isFraud']==1]
+non_fraud = train_df[train_df['isFraud']==0]
+
+# undersample majority to match minority
+non_fraud_down = resample(
+    non_fraud,
+    replace=False,
+    n_samples=len(fraud),
+    random_state=42
+)
+balanced = pd.concat([fraud, non_fraud_down])
+X_bal = balanced.drop(columns='isFraud')
+y_bal = balanced['isFraud']
+
+# SMOTE up the minority back to balance
+sm = SMOTE(random_state=42)
+X_train_resampled, y_train_resampled = sm.fit_resample(X_bal, y_bal)
+
+print("\nResampled train shape:", X_train_resampled.shape)
+print("Resampled class dist:\n", pd.Series(y_train_resampled).value_counts())
