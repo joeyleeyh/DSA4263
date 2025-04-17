@@ -56,21 +56,10 @@ To use the dataset:
 - Random Forest
 - XGBoost
 
-## Exploratory Data Analysis (EDA)
-
 ## Feature Engineering Highlights
 - `log_amount`: log-transformed transaction amount
 - `amount_z_score`: standard score within each type
 - `isHighAmount`: flag for high transaction amounts
-
-  
-## Handling Class Imbalance
-
-
-## Model Development
-
-## Results Summary
-
 
 ## How to Run
 ```bash
