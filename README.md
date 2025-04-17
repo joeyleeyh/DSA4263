@@ -79,7 +79,6 @@ git clone https://github.com/yourusername/DSA4263.git
 cd DSA4263
 
 # Install dependencies
-```bash
 pip install -r requirements.txt
 
 # Run notebook or script
