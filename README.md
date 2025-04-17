@@ -1,16 +1,42 @@
-# DSA4263 Final Project - Fraud Detection using Machine Learning
+# Fraud Detection using Machine Learning
+A project for NUS DSA4263: Sense-making Case Analysis: Business and Commerce (AY2024/25 Semester 2)
+
+## Group Members
+Lee Jing Yun, Jamie
+
+Lee Yi Hui, Joey
+
+Liang Xiaoxin
+
+Mei Boyu
 
 ## Project Overview
-This project aims to build a fraud detection model using the Paysim dataset which simulates mobile money transactions. The goal is to accurately classify fraudulent transactions.
+This project aims to build a fraud detection system using machine learning models on a large-scale dataset that simulates mobile money transactions. The dataset includes over 6 million records of various transaction types with a significant class imbalance between fraudulent and non-fraudulent cases. The goal is to accurately classify fraudulent transactions.
 
 ## Key Objectives
-- Explore and understand the dataset via EDA
-- Address data imbalance using techniques like scale_pos_weight and class_weight = 'balanced'
-- Engineer meaningful features (e.g. `log_amount`, `amount_z_score`, etc.)
-- Train and evaluate models (Random Forest, XGBoost, etc.)
-- Compare model performance before and after feature engineering
+- Conduct exploratory data analysis (EDA) to uncover patterns in fraudulent behavior.
+- Train and compare baseline models (Logistic Regression, Random Forest, XGBoost).
+- Address severe data imbalance using techniques like scale_pos_weight and class_weight = 'balanced'.
+- Engineer meaningful features (e.g. `log_amount`, `amount_z_score`, etc.) to improve signal in the dataset.
+- Evaluate models using metrics such as ROC AUC, precision, recall, and F1-score.
+- Compare model performance before and after feature engineering.
+
+This project demonstrates how data science techniques can be applied to real-world financial problems and emphasizes the importance of model interpretability, feature engineering, and ethical use of data in fraud detection systems.
 
 ## Project Structure
+
+.
+├── data/                    # Raw and processed datasets (excluded from GitHub if large)
+├── notebooks/              # Jupyter notebooks for EDA, modeling, etc.
+│   ├── 01_eda.ipynb
+│   ├── 02_model_baselines.ipynb
+│   ├── 03_feature_engineering.ipynb
+│   └── 04_final_model_cv.ipynb
+├── models/                 # Serialized models (.pkl, .joblib, etc.)
+├── scripts/                # Python scripts for training, evaluation, preprocessing
+├── reports/                # Visuals, final writeup, and summary charts
+├── requirements.txt        # Dependencies
+└── README.md
 
 ## Models Used
 - Logistic Regression (Baseline)
@@ -18,15 +44,21 @@ This project aims to build a fraud detection model using the Paysim dataset whic
 - Random Forest
 - XGBoost
 
+## Exploratory Data Analysis (EDA)
+
 ## Feature Engineering Highlights
 - `log_amount`: log-transformed transaction amount
 - `amount_z_score`: standard score within each type
 - `isHighAmount`: flag for high transaction amounts
 
+  
+## Handling Class Imbalance
+
+
+## Model Development
+
 ## Results Summary
-- Best Model: **XGBoost**
-- AUC Score: `0.97+` after tuning and class balancing
-- Improved recall for fraud cases using SMOTE
+
 
 ## How to Run
 ```bash
