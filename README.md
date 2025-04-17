@@ -23,6 +23,18 @@ This project aims to build a fraud detection system using machine learning model
 
 This project demonstrates how data science techniques can be applied to real-world financial problems and emphasizes the importance of model interpretability, feature engineering, and ethical use of data in fraud detection systems.
 
+## Dataset
+
+The dataset used in this project is publicly available on Kaggle:
+
+ [Credit Card Fraud Detection Dataset](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud)
+
+To use the dataset:
+1. Visit the link above
+2. Log in with a Kaggle account
+3. Download `creditcard.csv`
+4. Place it in the `data/` folder of this repository
+
 ## Project Structure
 
 .
